@@ -6,11 +6,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="EScheduler-service" />
         <module name="EScheduler-schedule" />
+        <module name="EScheduler-cluster" />
+        <module name="EScheduler-api" />
         <module name="EScheduler-sample" />
         <module name="EScheduler-test" />
+        <module name="EScheduler-common" />
         <module name="EScheduler-build" />
+        <module name="EScheduler-console" />
         <module name="EScheduler-spring" />
+        <module name="EScheduler-persistent" />
         <module name="EScheduler-core" />
       </profile>
     </annotationProcessing>

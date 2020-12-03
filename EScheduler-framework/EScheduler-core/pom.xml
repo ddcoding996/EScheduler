@@ -12,4 +12,11 @@
     <artifactId>EScheduler-core</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.ddcoding</groupId>
+            <artifactId>EScheduler-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

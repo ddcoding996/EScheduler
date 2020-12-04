@@ -10,6 +10,117 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>EScheduler-build</artifactId>
+    <packaging>pom</packaging>
+    <name>${project.groupId}:${project.artifactId}</name>
 
+    <properties>
+        <project.parent.basedir>D:\\mygithub\\EScheduler</project.parent.basedir>
+        <build.dir>${project.basedir}/build</build.dir>
+        <console.user.dir>${project.parent.basedir}/EScheduler-framework/EScheduler-console</console.user.dir>
+        <sample.user.dir>${project.parent.basedir}/EScheduler-sample</sample.user.dir>
+        <cluster.user.dir>${project.parent.basedir}/EScheduler-framework/EScheduler-cluster</cluster.user.dir>
+    </properties>
+
+    <dependencies>
+        <!-- 控制构建顺序 -->
+        <dependency>
+            <groupId>com.ddcoding</groupId>
+            <artifactId>EScheduler-sample</artifactId>
+            <version>${escheduler.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ddcoding</groupId>
+            <artifactId>EScheduler-console</artifactId>
+            <classifier>classes</classifier>
+            <version>${escheduler.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ddcoding</groupId>
+            <artifactId>EScheduler-cluster</artifactId>
+            <version>${escheduler.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-console</id>
+                        <phase>package</phase>
+                        <inherited>false</inherited>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <target>
+                        <!-- 打包cluster -->
+                        <mkdir dir="${cluster.user.dir}/target/lib" />
+                        <mkdir dir="${cluster.user.dir}/target/logs" />
+                        <mkdir dir="${cluster.user.dir}/target/conf" />
+                        <mkdir dir="${cluster.user.dir}/target/bin" />
+                        <mkdir dir="${cluster.user.dir}/target/job" />
+                        <mkdir dir="${cluster.user.dir}/target/job/standby" />
+                        <mkdir dir="${cluster.user.dir}/target/job/masterSlave" />
+                        <mkdir dir="${cluster.user.dir}/src/main/resources" />
+                        <copy todir="${cluster.user.dir}/target/bin" overwrite="true">
+                            <fileset dir="${cluster.user.dir}/src/main/resources">
+                                <include name="startup.bat" />
+                                <include name="bootstrap.bat" />
+                                <include name="shutdown.bat" />
+                                <include name="startup.sh" />
+                                <include name="bootstrap.sh" />
+                                <include name="shutdown.sh" />
+                            </fileset>
+                        </copy>
+                        <chmod dir="${cluster.user.dir}/target/bin" perm="+x" includes="**/*.sh" />
+                        <copy todir="${cluster.user.dir}/target/conf" overwrite="true">
+                            <fileset dir="${cluster.user.dir}/src/main/resources">
+                                <include name="job.properties" />
+                                <include name="log4j.properties" />
+                                <include name="quartz.properties" />
+                            </fileset>
+                        </copy>
+                        <copy todir="${cluster.user.dir}/target" overwrite="true">
+                            <fileset dir="${user.dir}">
+                                <include name="LICENSE" />
+                                <include name="README.md" />
+                            </fileset>
+                        </copy>
+                        <copy todir="${cluster.user.dir}/target/lib" overwrite="true">
+                            <fileset dir="${cluster.user.dir}/target">
+                                <include name="EScheduler-cluster.jar" />
+                            </fileset>
+                        </copy>
+                        <zip destfile="${cluster.user.dir}/target/EScheduler-cluster.zip" basedir="${cluster.user.dir}/target" includes="bin/**,conf/**,job/**,lib/**,logs/**,LICENSE,README.md" excludes="**/*.log*,job/masterSlave/**.jar,job/standby/**.jar" />
+                        <tar destfile="${cluster.user.dir}/target/EScheduler-cluster.tar" basedir="${cluster.user.dir}/target" includes="bin/**,conf/**,job/**,lib/**,logs/**,LICENSE,README.md" excludes="**/*.log*,job/masterSlave/**.jar,job/standby/**.jar" />
+                        <gzip destfile="${cluster.user.dir}/target/EScheduler-cluster.tar.gz" src="${cluster.user.dir}/target/EScheduler-cluster.tar" />
+
+                        <!-- 创建build文件夹 -->
+                        <delete dir="${build.dir}" />
+                        <mkdir dir="${build.dir}" />
+
+                        <!-- 将包复制到build文件夹 -->
+                        <copy file="${sample.user.dir}/target/EScheduler-sample-${escheduler.version}.jar" tofile="${build.dir}/EScheduler-sample.jar" overwrite="true" />
+                        <copy file="${console.user.dir}/target/EScheduler-console.war" tofile="${build.dir}/EScheduler-console.war" overwrite="true" />
+                        <copy file="${cluster.user.dir}/target/EScheduler-cluster.zip" tofile="${build.dir}/EScheduler-cluster.zip" overwrite="true" />
+                        <copy file="${cluster.user.dir}/target/EScheduler-cluster.tar.gz" tofile="${build.dir}/EScheduler-cluster.tar.gz" overwrite="true" />
+
+                    </target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

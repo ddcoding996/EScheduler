@@ -22,6 +22,11 @@
             <artifactId>EScheduler-schedule</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+            <!-- 这是spring的jar包 -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+            </dependency>
     </dependencies>
 
 </project>

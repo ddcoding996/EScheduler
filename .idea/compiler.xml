@@ -13,7 +13,6 @@
         <module name="EScheduler-sample" />
         <module name="EScheduler-test" />
         <module name="EScheduler-common" />
-        <module name="EScheduler-build" />
         <module name="EScheduler-console" />
         <module name="EScheduler-spring" />
         <module name="EScheduler-persistent" />

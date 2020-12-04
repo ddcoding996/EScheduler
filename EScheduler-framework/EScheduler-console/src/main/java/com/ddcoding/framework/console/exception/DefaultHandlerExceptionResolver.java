@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 解析ExceptionForward 标签，在servlet.xml注入此bean
  */
 public class DefaultHandlerExceptionResolver implements HandlerExceptionResolver {
 

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 类加载器.
+ * 类加载器.参考tomcat的类加载机制
  * 当entrust为true时,该类加载完全遵循双亲委托模型,类加载器继承的顺序如下:
  *      bootstrap class loader
  *                ||

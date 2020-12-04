@@ -1,28 +1,27 @@
-
-package com.ddcoding.framework.schedule.node;
+package com.ddcoding.framework.spring.node;
 
 import com.ddcoding.framework.common.helper.ClassHelper;
 import com.ddcoding.framework.core.scanner.JobScanner;
 import com.ddcoding.framework.core.scanner.JobScannerFactory;
 import com.ddcoding.framework.schedule.AutomaticScheduleManager;
 import com.ddcoding.framework.schedule.DefaultAutomaticScheduleManager;
-import com.ddcoding.framework.schedule.bean.DefaultJobBeanFactory;
 import com.ddcoding.framework.schedule.bean.JobBeanFactory;
+import com.ddcoding.framework.schedule.node.AbstractNode;
+import com.ddcoding.framework.spring.bean.SpringJobBeanFactory;
+import org.springframework.context.ApplicationContext;
 
 /**
- * 该实现类用于非集群环境下的非spring任务执行.
- * 内部包含的自动调度器可以按照注解自动的启动的任务.
- *
- * @see AutomaticScheduleManager
- * @see DefaultAutomaticScheduleManager
+ * 用于非集群情况下的spring环境.
+ * 该节点包含了一个自动调度的管理器,它将会按照任务注解自动的启动所有的任务.
  *
  */
-public class SimpleLocalJobNode extends AbstractNode {
+public class SimpleSpringLocalJobNode extends AbstractNode {
 
     private AutomaticScheduleManager schedulerManager;
 
-    public SimpleLocalJobNode(String packagesToScan) {
-        JobBeanFactory jobBeanFactory = new DefaultJobBeanFactory(ClassHelper.getDefaultClassLoader());
+    public SimpleSpringLocalJobNode(ApplicationContext applicationContext, String packagesToScan) {
+        ClassHelper.overrideThreadContextClassLoader(applicationContext.getClassLoader());
+        JobBeanFactory jobBeanFactory = new SpringJobBeanFactory(applicationContext);
         JobScanner jobScanner = JobScannerFactory.createClasspathJobScanner(ClassHelper.getDefaultClassLoader(), packagesToScan);
         schedulerManager = new DefaultAutomaticScheduleManager(jobBeanFactory, jobScanner.getJobDescriptorList());
     }

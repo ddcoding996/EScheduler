@@ -11,6 +11,7 @@ public class Job2 {
     @Schedule(cron = "0/5 * * * * ?")
     public void job2Test() {
         LoggerHelper.info("[job2] is running.......");
+        System.out.println("[job2] is running.......");
     }
 
 }

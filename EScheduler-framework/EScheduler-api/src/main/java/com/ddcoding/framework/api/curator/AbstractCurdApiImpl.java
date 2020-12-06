@@ -168,6 +168,12 @@ public abstract class AbstractCurdApiImpl {
         }
     }
 
+    /**
+     * 更新元数据到zk
+     * @param path
+     * @param data
+     * @return
+     */
     protected Stat setData(String path, byte[] data) {
         try {
             return getClient().setData().forPath(path, data);

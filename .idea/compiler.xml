@@ -8,14 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="EScheduler-service" />
         <module name="EScheduler-schedule" />
+        <module name="EScheduler-console" />
         <module name="EScheduler-cluster" />
-        <module name="EScheduler-api" />
         <module name="EScheduler-sample" />
         <module name="EScheduler-test" />
         <module name="EScheduler-common" />
-        <module name="EScheduler-console" />
-        <module name="EScheduler-spring" />
         <module name="EScheduler-persistent" />
+        <module name="EScheduler-api" />
+        <module name="EScheduler-spring" />
         <module name="EScheduler-core" />
       </profile>
     </annotationProcessing>
